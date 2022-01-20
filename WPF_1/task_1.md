@@ -42,11 +42,15 @@ namespace Oponeo.WMS.WPFClient.Views
 </Grid>
 ```
 
-8. Try to create a simple form. Check what will happen if you put these two lines between **</Grid.ColumnDefinitions>** and **</Grid>** markup.
+8. Try to create a simple form. Check what will happen if you put these two lines between ``</Grid.ColumnDefinitions>` and ``</Grid>`` markup.
 
 ```
+</Grid.ColumnDefinitions>
+...
 <Label Grid.Row="0">Customer Name</Label>
 <Label Grid.Row="1">Tax identifier</Label>
+...
+</Grid>
 ```
 
 9. Inspect what will happen if you put this line of code.

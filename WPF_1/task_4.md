@@ -2,7 +2,7 @@
 
 ### Creating a project in PRISM
 
-1. Create right-click solution -> Add -> New Project and create new WPFClient for Prism. Name a project as "Oponeo.WMS.WPFClientPrism".
+1. Create right-click solution -> Add -> New Project and create new WPFClient for Prism. Name a project as **"Oponeo.WMS.WPFClientPrism"**.
 
 2. Install Prism.Unity from Nuget package manager.
 
@@ -12,8 +12,8 @@
              x:Class="Oponeo.WMS.WPFClientPrism.App"
              ...
              xmlns:prism="http://prismlibrary.com/">
-    <Application.Resources>
-    ...
+<Application.Resources>
+...
 ```
 
 4. Change code behind - App.xaml.cs and implement methods needed by PrismApplication.
@@ -51,41 +51,35 @@
     }
 ```
 
-6. Create Views and ViewModels folder in this created project which will be similar like at the end of task 3. Below you find them. Remove ```OnPropertyChanged()``` calls and
-   the inheritance from BaseViewModel.
+6. Create Views and ViewModels folder in this created project which will be similar like at the beginning of the task 3. Below you find them. Remove ```OnPropertyChanged()``` calls and the inheritance from BaseViewModel. Add changing method like in the task 3.
 
 ```cs
  public class MainWindowViewModel 
     {
-        private Customer _customer;
+        private string _name;
 
         public string Name
         {
-            get { return _customer.Name; }
-            set 
-            { 
-                _customer.Name = value;
-            }
+            get { return _name; }
+            set { _name = value; }
         }
+
+        private string _taxIdentifier;
 
         public string TaxIdentifier
         {
-            get { return _customer.TaxIdentifier; }
-            set 
-            { 
-                _customer.TaxIdentifier = value;
-            }
+            get { return _taxIdentifier; }
+            set { _taxIdentifier = value; }
         }
+
+        private string _address;
 
         public string Address
         {
-            get { return _customer.TaxIdentifier; }
-            set 
-            { 
-                _customer.TaxIdentifier = value;
-            }
+            get { return _address; }
+            set { _address = value; }
         }
-
+        
         public string FullCustomerData
         {
             get => $"CustomerName:{Name}, TaxIdentifier:{TaxIdentifier}, Address: {Address}";
@@ -93,10 +87,12 @@
 
         public MainWindowViewModel()
         {
-            _customer = Customer.CreateCustomerWithFields("Oponeo", "321321321", "Warszawa ul. Testowa 1");
+            Customer customer = Customer.CreateCustomerWithFields("Oponeo", "321321321", "Warszawa ul. Testowa 1");
+            TaxIdentifier = customer.TaxIdentifier;
+            Address = customer.Address;
+            Name = customer.Name;
             ChangeValueAfterWhile();
         }
-
 
         private void ChangeValueAfterWhile()
         {
@@ -109,7 +105,7 @@
 
         public override string ToString()
         {
-            return $"CustomerName:{Name}, TaxIdentifier:{TaxIdentifier}, Address: {Address}";
+            return $"CustomerName:{Name}, TaxIdentifier:{TaxIdentifier}, Address: { Address}";
         }
     }
 ```
@@ -156,9 +152,47 @@
 
 7. Add inhertiance from ```BindableBase``` to ```MainWindowViewModel```. Add autowiring ViewModel class. Inspect if the constructor of ```MainWindowViewModel``` is being called.
 
+```cs
+ public class MainWindowViewModel : BindableBase
+```
 ```
 xmlns:prism="http://prismlibrary.com/"
 prism:ViewModelLocator.AutoWireViewModel="True"
 ```
 
-8.
+8. Replace setters in ```MainWindowViewModel``` with using ```SetProperty()``` method from Prism.
+
+```cs
+        public string Name
+        {
+            get { return _name; }
+            set => SetProperty(ref _name, value);
+        }
+
+        private string _taxIdentifier;
+
+        public string TaxIdentifier
+        {
+            get { return _taxIdentifier; }
+            set => SetProperty(ref _taxIdentifier, value);
+        }
+
+        private string _address;
+
+        public string Address
+        {
+            get { return _address; }
+            set => SetProperty(ref _address, value);
+        }
+```
+
+8. Inspect what will happen. As you will notice propery ```FullCustomerData``` will not change. Replace setter in ```Name``` property to:
+
+```cs
+public string Name
+{
+    get { return _name; }
+    set => SetProperty(ref _name, value, () => { RaisePropertyChanged(nameof(FullCustomerData)); });
+}
+```
+9. Run and inspect if everything works corectly.

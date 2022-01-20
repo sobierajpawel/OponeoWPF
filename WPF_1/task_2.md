@@ -109,3 +109,19 @@ public partial class MainWindow : Window
 }
 ```
 15. Inspect if application works fine and correct message is shown after clicking in Save button.
+
+16. You can assign ViewModel in XAML code. First remove assigning DataContext in constructor in code-behind.
+
+17. Then add xmlns section to Model project in MainWindow.xaml.
+
+```
+  xmlns:model="clr-namespace:Oponeo.WMS.Model;assembly=Oponeo.WMS.Model"
+```
+
+18. Assign viewModel in xmlns file like this.
+
+```
+  <Window.DataContext>
+    <model:Customer/>
+  </Window.DataContext>
+```

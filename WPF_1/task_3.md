@@ -170,7 +170,7 @@ public string Name
 }
         
 ```
-12. Add another extra field into ViewModel with FullCustomerData.
+12. Add another extra field into ```MainWindowViewModel``` with ```FullCustomerData```.
 
 ```cs
 public string FullCustomerData

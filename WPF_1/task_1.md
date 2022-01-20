@@ -13,7 +13,7 @@
 ```
 x:Class="Oponeo.WMS.WPFClient.Views.MainWindow"
 ```
-```
+```cs
 namespace Oponeo.WMS.WPFClient.Views
 ```
 5. Change StartupUri in App.xaml for new namespace.
@@ -70,11 +70,11 @@ namespace Oponeo.WMS.WPFClient.Views
 
 ```
  <Button Grid.Row="3">Save</Button>
- ```
+```
  
  12. Inspect form and change row definitions into this one:
  
- ```
+```
  <Grid.RowDefinitions>
     <RowDefinition Height="auto" />
     <RowDefinition Height="auto" />
@@ -105,7 +105,7 @@ namespace Oponeo.WMS.WPFClient.Views
 
 16. Try to show Hello World in the method in code-behind. It should look like this:
 
-```
+```cs
    public partial class MainWindow : Window
     {
         public MainWindow()
@@ -122,7 +122,7 @@ namespace Oponeo.WMS.WPFClient.Views
 
 17. You can create your own message, based on user data provided into textboxes. Try modify it on your own. Below find an example:
 
-```
+```cs
 private void Button_Click(object sender, RoutedEventArgs e)
 {
     var customerName = CustomerTextBox.Text;

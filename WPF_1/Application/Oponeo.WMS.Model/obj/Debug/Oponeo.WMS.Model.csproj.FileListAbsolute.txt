@@ -1,0 +1,5 @@
+C:\Users\pwsb\source\Repos\Oponeo.WMS\Oponeo.WMS.Model\bin\Debug\Oponeo.WMS.Model.dll
+C:\Users\pwsb\source\Repos\Oponeo.WMS\Oponeo.WMS.Model\bin\Debug\Oponeo.WMS.Model.pdb
+C:\Users\pwsb\source\Repos\Oponeo.WMS\Oponeo.WMS.Model\obj\Debug\Oponeo.WMS.Model.csproj.CoreCompileInputs.cache
+C:\Users\pwsb\source\Repos\Oponeo.WMS\Oponeo.WMS.Model\obj\Debug\Oponeo.WMS.Model.dll
+C:\Users\pwsb\source\Repos\Oponeo.WMS\Oponeo.WMS.Model\obj\Debug\Oponeo.WMS.Model.pdb

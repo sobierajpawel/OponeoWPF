@@ -9,7 +9,7 @@
 6. Create a simple version of `RelayCommand` implementation. You can create `Commands` folder in `Oponeo.WMS.WPFClient` project. The example implementation is shown below. You can try create generic implementation. 
 
 ```cs
- public class RelayCommand : ICommand
+    public class RelayCommand : ICommand
     {
         private readonly Action<object> _execute;
         private readonly Func<object, bool> _canExecute;

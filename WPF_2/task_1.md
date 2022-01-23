@@ -131,12 +131,12 @@ private void InitializeCommand()
 
       Task.Run(() =>Save(source)); 
       },  x => !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(TaxIdentifier));
-   }
+}
 
-   private void Save(string source)
-   {
-         Status = $"Saving... from {source}";
-         Thread.Sleep(5000);
-         Status = "Customer has been saved";
-   }
+private void Save(string source)
+{
+     Status = $"Saving... from {source}";
+     Thread.Sleep(5000);
+     Status = "Customer has been saved";
+}
 ```

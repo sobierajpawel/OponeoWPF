@@ -64,9 +64,9 @@ private void InitializeCommand()
 
 private void Save()
 {
-     Status = "Zapisywanie...";
+     Status = "Saving...";
      Thread.Sleep(5000);
-     Status = "Dane zostały zapisane";
+     Status = "Customer has been saved";
 }
 ```
 
@@ -97,4 +97,46 @@ private void InitializeCommand()
 {
     SaveCommand = new RelayCommand(o => { Task.Run(() =>Save()); }, x => !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(TaxIdentifier));
 }
+```
+
+11. Add `KeyBinding` to `MainWindow.xaml` and check if pressing `K` on a keyboard invokes `Save()` method.
+
+```
+  <KeyBinding Key="S" Command="{Binding SaveCommand}"/>
+```
+
+12. Add `CommandParameter` to keyboard/mouse command binding. 
+
+```
+  <KeyBinding Key="S" Command="{Binding SaveCommand}" CommandParameter="Keyboard"/>
+```
+
+```
+ <Button Content="Save" Command="{Binding SaveCommand}" CommandParameter="Mouse"></Button>
+ ```
+ 
+ 13. Modify RelayCommand declaration and use the parameter in `Save(parameter)` method.
+
+```cs
+private void InitializeCommand()
+{
+   SaveCommand = new RelayCommand(o => 
+   {
+      string source = string.Empty;
+
+      if (o is string parameter)
+      {
+         source = parameter;
+      }
+
+      Task.Run(() =>Save(source)); 
+      },  x => !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(TaxIdentifier));
+   }
+
+   private void Save(string source)
+   {
+         Status = $"Saving... from {source}";
+         Thread.Sleep(5000);
+         Status = "Customer has been saved";
+   }
 ```

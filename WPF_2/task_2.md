@@ -76,3 +76,38 @@ xmlns:v_customers="clr-namespace:Oponeo.WMS.WPFClient.Views.Customers"
         <ContentControl Grid.Column="1" Content="{Binding CurrentViewModel}"/>
 </Grid>
 ```
+
+8. Add two simple buttons and place them into `StackPanel` in MainWindow.xaml. As a result there should be a simple navigation menu on a view side as below. Create bindings for Commands.
+
+```
+ <StackPanel Grid.Column="0">
+    <Button Content="Add customer" Command="{Binding AddCustomerCommand}"/>
+    <Button Content="List customers" Command="{Binding ListCustomerCommand}"/>
+ </StackPanel>      
+```
+
+9. Add implementation of command which might be similar to below.
+
+```cs
+private void InitializeCommand()
+{
+   AddCustomerCommand = new RelayCommand(o =>
+   {
+      SetViewModelAsCurrent(typeof(AddCustomerViewModel));
+   });
+   ListCustomerCommand = new RelayCommand(o =>
+   {
+      SetViewModelAsCurrent(typeof(ListCustomerViewModel));
+   });
+}
+
+private void SetViewModelAsCurrent(Type type)
+{
+   if (type.IsSubclassOf(typeof(BaseViewModel)))
+   {
+      CurrentViewModel = (BaseViewModel)Activator.CreateInstance(type);
+   }  
+}
+```
+
+10. Run and notice if when you the user view switches between two view and viewmodels. Put necessary breakpoints in both constructors to notice if it works correctly.

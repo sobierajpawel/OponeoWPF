@@ -134,13 +134,13 @@ private void InitializeCommand()
 11. Add `KeyBinding` to `MainWindow.xaml` and check if pressing `K` on a keyboard invokes `Save()` method.
 
 ```
-  <KeyBinding Key="S" Command="{Binding SaveCommand}"/>
+<KeyBinding Command="{Binding SaveCommand}" Modifiers="Ctrl" Key="S"/>
 ```
 
 12. Add `CommandParameter` to keyboard/mouse command binding. 
 
 ```
-  <KeyBinding Key="S" Command="{Binding SaveCommand}" CommandParameter="Keyboard"/>
+  <KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding SaveCommand}" CommandParameter="Keyboard"/>
 ```
 
 ```

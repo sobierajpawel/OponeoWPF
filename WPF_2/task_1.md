@@ -2,9 +2,41 @@
 
 ### Events, commands and interaction triggers
 
+1. Open the project from WPF_1 application. If you write your own project and it works use it. 
 
+2. Add `<Button>` and `<Label>` controls into `<StackPanel>`. You can set `Margin` in `StackPanel` to place elements correctly.
 
+```
+<StackPanel Grid.Row="4" Grid.ColumnSpan="2" Margin="40,30,40,0">
+    <Button Click="Button_Click"  Content="Save"></Button>
+    <Label Margin="0,20,0,0" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" FontSize="14" FontWeight="Bold" Content="{Binding FullCustomerData}"></Label>
+</StackPanel>
+ ```
+3. Add event on `StackPanel` to handle click like below.
 
+```
+ButtonBase.Click="StackPanel_Click"
+```
+
+4. Place two breakpoints in code behind in the `Button_Click()` method and in the `StackPanel_Click()` method. Notice how bubbling behaves. Put two message boxes in these methods to find out what information will be shown in `RoutedEventArgs`.
+
+```cs
+MessageBox.Show($"Sender {sender}, OriginalSource: {e.OriginalSource}");
+```
+
+5. Check how tunneling works in WPF. You can check it on some `Preview` event. Add `PreviewKeyDown` event in Grid and in a particular `TextBox`. Place message boxes and breakpoints in code-behind methods. Then press a key (or do other action depending on choosen event) in a particular TextBox.
+
+```
+<Grid Margin="20" PreviewKeyDown="Grid_PreviewKeyDown">
+```
+
+```
+<TextBox PreviewKeyDown="TextBox_PreviewKeyDown"  Grid.Column="1" Grid.Row="1" Text="{Binding Name}"></TextBox>
+```
+
+```cs
+MessageBox.Show($"Sender {sender}, OriginalSource: {e.OriginalSource}");
+```
 
 6. Create a simple version of `RelayCommand` implementation. You can create `Commands` folder in `Oponeo.WMS.WPFClient` project. The example implementation is shown below. You can try create generic implementation. 
 
@@ -70,7 +102,7 @@ private void Save()
 }
 ```
 
-8. Modify `XAML` code and put button into `StackPanel` add `Label` and bind all new controls - `Command` property in `Button` to `SaveCommand` and `Content` in `Label` with
+8. Modify `XAML` code to  bind all new controls - `Command` property in `Button` to `SaveCommand` and `Content` in `Label` with
 the new created property.
 
 ```

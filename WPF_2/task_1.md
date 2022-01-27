@@ -172,3 +172,53 @@ private void Save(string source)
      Status = "Customer has been saved";
 }
 ```
+14. In the `Oponeo.WMS.WPFClientPrism` project place namespace for `InvokeCommandActions`.
+
+```
+xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+```
+
+15. Add trigger for using right click mouse on button `Save`. Do it in XAML like here below (you can move the general construction with `StackPanel` from the standard MVVM project):
+
+```
+    <StackPanel Grid.Row="4" Grid.ColumnSpan="2" Margin="40,30,40,0">
+            <Button Click="Button_Click" Content="Save">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseRightButtonUp">
+                        <prism:InvokeCommandAction Command="{Binding SaveCommand}" CommandParameter="MousePrism"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+
+            <Label Margin="0,20,0,0" Content="{Binding Status}" HorizontalAlignment="Center"/>
+        </StackPanel>
+```
+
+16. Add necessary code in ViewModel (add `Status` as a property, bind `SaveCommand`).
+
+```cs
+private string _status;
+
+public string Status
+{
+    get { return _status; }
+    et => SetProperty(ref _status, value);
+}
+
+public ICommand SaveCommand { get; set; }
+```
+
+```cs
+...
+SaveCommand = new DelegateCommand<string>(source => Task.Run(() =>  Save(source)));
+...
+```
+
+```cs
+private void Save(string source)
+{
+    Status = $"Saving... from {source}";
+    Thread.Sleep(5000);
+     Status = "Customer has been saved";
+}
+```

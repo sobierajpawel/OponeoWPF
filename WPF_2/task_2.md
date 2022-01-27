@@ -111,3 +111,33 @@ private void SetViewModelAsCurrent(Type type)
 ```
 
 10. Run and notice if when you the user view switches between two view and viewmodels. Put necessary breakpoints in both constructors to notice if it works correctly.
+
+11. As you can see `AddCustomerView` and the corresponding view model is always renew when tyou click `Add customer` button. We want to create a view model and a view only when it is necessary and keep all references in a collection. Let's do that.
+
+12. Create a collection in `MainWindowViewModel` class. it might be a list.
+
+```cs
+private List<BaseViewModel> _viewModels = new List<BaseViewModel>();
+```
+
+13. Replace `SetViewModelAsCurrent()` method to place logic of creating viewmodel when a collection does not have it. It should be like this.
+
+```cs
+private void SetViewModelAsCurrent(Type type)
+{
+   if (type.IsSubclassOf(typeof(BaseViewModel)))
+   {
+      if (_viewModels.Any(x => x.GetType() == type))
+      {
+         CurrentViewModel = (BaseViewModel)_viewModels.Where(x => x.GetType() == type).FirstOrDefault();
+      }
+      else
+      {
+         CurrentViewModel = (BaseViewModel)Activator.CreateInstance(type);
+          _viewModels.Add(CurrentViewModel);
+      }
+   }
+}
+```
+
+14. Inspect if an instance is created only once if a user clicks a button.

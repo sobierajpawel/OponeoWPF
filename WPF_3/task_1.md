@@ -136,3 +136,181 @@
         SetViewModel(typeof(AddDeliveryNoteViewModel));
      });
  ```
+
+10. Add controls to new form and bind them with corresponing properties.
+
+```
+        <TextBox  Text="{Binding DocumentNumber}" Grid.Row="1" Grid.Column="1"/>
+        <DatePicker SelectedDate="{Binding DocumentDate}" Grid.Row="2" Grid.Column="1"/>
+        <TextBox Text="{Binding Description}" Grid.Row="3" Grid.Column="1"/>
+        <ComboBox SelectedItem="{Binding SelectedCustomer}" DisplayMemberPath="Name" ItemsSource="{Binding Customers}" Grid.Row="4" Grid.Column="1"/>
+```
+
+11. Add collection to `ComboBox`'s item source. And in `ctor` add at least two record. Remove and add `DisplayMemberPath` in `ComboBox` control. Inspect what values are shown.
+
+```cs
+        private ObservableCollection<Customer> _customers = new ObservableCollection<Customer>();
+
+        public ObservableCollection<Customer> Customers
+        {
+            get { return _customers; }
+            set
+            {
+                _customers = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public AddDeliveryNoteViewModel()
+        {
+            this.Customers.Add(Customer.CreateFullDataCustomer("Oponeo", "125789214", "ul.Testowa 1, Bydgoszcz"));
+            this.Customers.Add(Customer.CreateFullDataCustomer("New customer", "DE56752121", "ul.Testowa 1, Berlin"));
+        }
+```
+
+12. Add `StackPanel` and put buttons into it like below.
+
+```
+<StackPanel Grid.Row="6" Grid.ColumnSpan="2" Margin="40,30,40,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Command="{Binding SaveCommand}" CommandParameter="Mouse" Content="Save"></Button>
+                <Button Margin="20,0,0,0" Command="{Binding SetDefaultCommand}" Content="Set default"></Button>
+            </StackPanel>
+</StackPanel>
+```
+
+13. In `Styles.xaml` add new style for textboxes which will be used in `AddDeliveryNoteView`. Use `Triggers` to change button color when mouse is above button.
+
+```
+ <Style x:Key="DeliveryTextBox" TargetType="{x:Type TextBox}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="LightBlue"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+ ```
+ 
+ 14. Add style file to `ResourceDictionary` in `AddDeliveryNoteView` as below.
+
+```
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Oponeo.WMS.WPFClient;component/Resources/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+```
+
+15. Run application and check if your property trigger works correctly.
+
+16. Apply datatrigger to `DatePicker`. 
+
+```
+  <DatePicker SelectedDate="{Binding DocumentDate}" Grid.Row="2" Grid.Column="1">
+            <DatePicker.Style>
+                <Style TargetType="{x:Type DatePicker}">
+                    <Setter Property="IsEnabled" Value="False"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding SelectedCustomer.IsActive}" Value="True">
+                            <Setter Property="IsEnabled" Value="True"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DatePicker.Style>
+        </DatePicker>
+```
+
+17. Add an overloaded method for creating `Customer` which allows to put `isActive` parameter.
+
+```cs
+     public static Customer CreateFullDataCustomer(string name, string taxIdentifier, string address, bool isActive)
+        {
+            return new Customer
+            {
+                Name = name,
+                TaxIdentifier = taxIdentifier,
+                Address = address,
+                IsActive = isActive
+            };
+        }
+```
+
+18. Modify collection in `AddDeliveryNoteViewModel`. Run application and check if `DatePicker` is enabled depending on choosen customer.
+
+```cs
+ public AddDeliveryNoteViewModel()
+        {
+            this.Customers.Add(Customer.CreateFullDataCustomer("Oponeo", "125789214", "ul.Testowa 1, Bydgoszcz", true));
+            this.Customers.Add(Customer.CreateFullDataCustomer("New customer", "DE56752121", "ul.Testowa 1, Berlin"));
+        }
+```
+
+19. Add `EventTrigger` with `ColorAnimation`. Inspect how it works when you got and lost focus.
+
+```
+<TextBox Text="{Binding DocumentNumber}" Grid.Row="1" Grid.Column="1">
+            <TextBox.Style>
+                <Style TargetType="{x:Type TextBox}">
+                    <Style.Triggers>
+                        <EventTrigger RoutedEvent="GotFocus">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Duration="0:0:0.55" Storyboard.TargetProperty="Background.Color" To="LightCoral"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="LostFocus">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Duration="0:0:0.55" Storyboard.TargetProperty="Background.Color" To="White"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+```
+
+20. Change the style of textboxes in `Styles.xaml` for `DeliveryTextBox` and use `MultiTrigger` instead of a classic trigger. Inspect how it looks like.
+
+```
+ <Style x:Key="DeliveryTextBox" TargetType="{x:Type TextBox}">
+        <Style.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True"></Condition>
+                    <Condition Property="IsKeyboardFocused" Value="True"></Condition>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter Property="Background" Value="LightBlue"/>
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+```
+
+21. Replace `DataTrigger` with `MultiDataTrigger` and inspect application.
+
+```
+<DatePicker SelectedDate="{Binding DocumentDate}" Grid.Row="2" Grid.Column="1">
+            <DatePicker.Style>
+                <Style TargetType="{x:Type DatePicker}">
+                    <Setter Property="IsEnabled" Value="False"/>
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding SelectedCustomer.IsActive}" Value="True"></Condition>
+                                <Condition Binding="{Binding DocumentNumber}" Value="10"></Condition>
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                            <Setter Property="IsEnabled" Value="True"></Setter>
+                        </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DatePicker.Style>
+        </DatePicker>
+```

@@ -1,0 +1,6 @@
+C:\Users\pwsb\Downloads\Oponeo_3\OponeoWPF-main\WPF_2\Application\Oponeo.WMS.Model\bin\Release\Oponeo.WMS.Model.dll
+C:\Users\pwsb\Downloads\Oponeo_3\OponeoWPF-main\WPF_2\Application\Oponeo.WMS.Model\bin\Release\Oponeo.WMS.Model.pdb
+C:\Users\pwsb\Downloads\Oponeo_3\OponeoWPF-main\WPF_2\Application\Oponeo.WMS.Model\obj\Release\Oponeo.WMS.Model.csproj.AssemblyReference.cache
+C:\Users\pwsb\Downloads\Oponeo_3\OponeoWPF-main\WPF_2\Application\Oponeo.WMS.Model\obj\Release\Oponeo.WMS.Model.csproj.CoreCompileInputs.cache
+C:\Users\pwsb\Downloads\Oponeo_3\OponeoWPF-main\WPF_2\Application\Oponeo.WMS.Model\obj\Release\Oponeo.WMS.Model.dll
+C:\Users\pwsb\Downloads\Oponeo_3\OponeoWPF-main\WPF_2\Application\Oponeo.WMS.Model\obj\Release\Oponeo.WMS.Model.pdb
